@@ -1,0 +1,30 @@
+.CodeMirror {
+  background-color: #1f2937;
+  color: #f8f8f2;
+  font-size: 18px;
+  height: calc(100% - 60px);
+}
+
+.CodeMirror-gutter {
+  background-color: #23262c;
+}
+
+.CodeMirror-linenumber {
+  color: #636d83;
+}
+
+.CodeMirror-cursor {
+  border-left: 2px solid #ffcc00;
+}
+
+.CodeMirror-selected {
+  background-color: rgba(80, 80, 255, 0.2);
+}
+
+.CodeMirror-activeline-background {
+  background-color: #3e4451;
+}
+
+.CodeMirror-activeline {
+  border-left: 3px solid #61afef;
+}
