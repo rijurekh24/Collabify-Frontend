@@ -421,14 +421,34 @@ const EditorPage = () => {
           />
         </Box>
 
-        <Button
+        {/* <Button
           variant="contained"
           color="primary"
           onClick={toggleSidebar}
-          style={{ position: "fixed", bottom: 20, right: 20 }}
+          style={{
+            position: "fixed",
+            bottom: 20,
+            right: 20,
+            borderRadius: "50%",
+          }}
         >
-          Chat
-        </Button>
+        </Button> */}
+        <Icon
+          onClick={toggleSidebar}
+          icon="quill:chat"
+          height={30}
+          style={{
+            marginRight: "8px",
+            color: "white",
+            position: "fixed",
+            bottom: 20,
+            right: 20,
+            backgroundColor: "#0288D1 ",
+            padding: "10px",
+            borderRadius: "50%",
+            cursor: "pointer",
+          }}
+        />
 
         {/* Sidebar (Drawer) */}
         <Drawer
@@ -440,7 +460,7 @@ const EditorPage = () => {
             width: 300,
             flexShrink: 0,
             "& .MuiDrawer-paper": {
-              width: 300,
+              width: 400,
               boxSizing: "border-box",
               display: "flex",
               flexDirection: "column",
@@ -457,6 +477,9 @@ const EditorPage = () => {
                 overflowY: "auto",
                 padding: "10px",
                 wordWrap: "break-word",
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
               }}
             >
               {messages.map((msg, index) => (
@@ -464,12 +487,43 @@ const EditorPage = () => {
                   key={index}
                   className="message"
                   style={{
-                    marginBottom: "10px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems:
+                      msg.username === "currentUser"
+                        ? "flex-end"
+                        : "flex-start",
+                    padding: "8px",
+                    backgroundColor:
+                      msg.username === "currentUser" ? "#0288D1" : "#444",
+                    borderRadius: "12px",
+                    maxWidth: "100%",
                     wordWrap: "break-word",
                     color: "white",
+                    marginLeft: msg.username === "currentUser" ? "auto" : "0",
                   }}
                 >
-                  <strong>{msg.username}</strong>: {msg.message.message}
+                  <div
+                    style={{
+                      fontWeight: "bold",
+                      color:
+                        msg.username === "currentUser" ? "#fff" : "#0288D1",
+                      fontSize: "14px",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {msg.username}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: "16px",
+                      color: "white",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {msg.message.message}
+                  </div>
                 </Box>
               ))}
             </Box>
@@ -487,7 +541,12 @@ const EditorPage = () => {
                 variant="standard"
                 value={chatMessage}
                 onChange={(e) => setChatMessage(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
                 placeholder="Type a message..."
                 multiline
                 minRows={1}
