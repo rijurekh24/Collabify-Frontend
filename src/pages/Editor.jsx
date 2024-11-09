@@ -448,12 +448,10 @@ const EditorPage = () => {
             },
           }}
         >
-          <div
-            className="chat-box"
+          <Box
             style={{ display: "flex", flexDirection: "column", height: "100%" }}
           >
-            <div
-              className="messages"
+            <Box
               style={{
                 flex: 1,
                 overflowY: "auto",
@@ -462,7 +460,7 @@ const EditorPage = () => {
               }}
             >
               {messages.map((msg, index) => (
-                <div
+                <Box
                   key={index}
                   className="message"
                   style={{
@@ -472,13 +470,12 @@ const EditorPage = () => {
                   }}
                 >
                   <strong>{msg.username}</strong>: {msg.message.message}
-                </div>
+                </Box>
               ))}
-            </div>
+            </Box>
 
             {/* Chat Input */}
-            <div
-              className="chat-input"
+            <Box
               style={{
                 padding: "10px",
                 position: "relative",
@@ -533,8 +530,8 @@ const EditorPage = () => {
                   ),
                 }}
               />
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Drawer>
       </Box>
     </Box>
