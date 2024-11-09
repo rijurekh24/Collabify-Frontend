@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import { Oval } from "react-loader-spinner";
+import { Box } from "@mui/material";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -46,7 +47,7 @@ function App() {
       </div>
       <Router>
         {loading ? (
-          <div className="loader-container">
+          <Box>
             <Oval
               height={80}
               width={80}
@@ -56,7 +57,7 @@ function App() {
               strokeWidth={4}
               strokeWidthSecondary={4}
             />
-          </div>
+          </Box>
         ) : (
           <Routes>
             <Route path="/" element={<Home />} />
