@@ -8,5 +8,5 @@ export const initSocket = async () => {
     transports: ["websocket"],
   };
 
-  return io("http://localhost:8000", options);
+  return io("https://collabify-backend.onrender.com", options);
 };

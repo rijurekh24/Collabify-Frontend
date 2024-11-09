@@ -11,7 +11,14 @@ import {
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Box, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Drawer,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { Icon } from "@iconify/react";
 
 const EditorPage = () => {
@@ -21,6 +28,9 @@ const EditorPage = () => {
   const reactNavigator = useNavigate();
   const { roomId } = useParams();
   const [clients, setClients] = useState([]);
+  const [messages, setMessages] = useState([]); // State to store chat messages
+  const [chatMessage, setChatMessage] = useState(""); // State for current input message
+  const [sidebarOpen, setSidebarOpen] = useState(false); // State to control the sidebar visibility
 
   useEffect(() => {
     const init = async () => {
@@ -61,15 +71,40 @@ const EditorPage = () => {
           return prev.filter((client) => client.socketId !== socketId);
         });
       });
+
+      socketRef.current.on("RECEIVE_MESSAGE", (message) => {
+        console.log("Received message:", message); // Log the message object structure
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
     };
     init();
     return () => {
       socketRef.current.off(ACTIONS.JOINED);
       socketRef.current.off(ACTIONS.DISCONNECTED);
-      socketRef.current.off(ACTIONS.SEND_MESSAGE);
+      socketRef.current.off("RECEIVE_MESSAGE");
       socketRef.current.disconnect();
     };
   }, []);
+
+  const sendMessage = () => {
+    if (chatMessage.trim()) {
+      const message = {
+        username: location.state?.username,
+        message: chatMessage,
+      };
+
+      socketRef.current.emit("SEND_MESSAGE", {
+        roomId,
+        message,
+      });
+
+      setChatMessage(""); // Clear input after sending
+    }
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   async function copyRoomId() {
     try {
@@ -138,8 +173,6 @@ const EditorPage = () => {
       },
       data: encodedParams,
     };
-
-    console.log(options);
 
     axios
       .request(options)
@@ -388,6 +421,122 @@ const EditorPage = () => {
             onBlur={(e) => (e.target.style.outline = "none")}
           />
         </Box>
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={toggleSidebar}
+          style={{ position: "fixed", bottom: 20, right: 20 }}
+        >
+          Chat
+        </Button>
+
+        {/* Sidebar (Drawer) */}
+        <Drawer
+          anchor="right"
+          open={sidebarOpen}
+          onClose={toggleSidebar}
+          variant="temporary"
+          sx={{
+            width: 300,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: 300,
+              boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "#111827",
+            },
+          }}
+        >
+          <div
+            className="chat-box"
+            style={{ display: "flex", flexDirection: "column", height: "100%" }}
+          >
+            <div
+              className="messages"
+              style={{
+                flex: 1,
+                overflowY: "auto",
+                padding: "10px",
+                wordWrap: "break-word",
+              }}
+            >
+              {messages.map((msg, index) => (
+                <div
+                  key={index}
+                  className="message"
+                  style={{
+                    marginBottom: "10px",
+                    wordWrap: "break-word",
+                    color: "white",
+                  }}
+                >
+                  <strong>{msg.username}</strong>: {msg.message.message}
+                </div>
+              ))}
+            </div>
+
+            {/* Chat Input */}
+            <div
+              className="chat-input"
+              style={{
+                padding: "10px",
+                position: "relative",
+                flexShrink: 0,
+              }}
+            >
+              <TextField
+                fullWidth
+                variant="standard"
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                placeholder="Type a message..."
+                multiline
+                minRows={1}
+                maxRows={4}
+                sx={{
+                  whiteSpace: "normal",
+                  wordWrap: "break-word",
+                  "& .MuiInputBase-input": {
+                    color: "white",
+                  },
+                  "& .MuiInput-underline:before": {
+                    borderBottomColor: "gray",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "white",
+                  },
+                  "& .MuiInput-underline:hover:before": {
+                    borderBottomColor: "white",
+                  },
+                  "& .MuiInput-underline:hover:after": {
+                    borderBottomColor: "white",
+                  },
+                }}
+                InputLabelProps={{
+                  style: { color: "#888" },
+                }}
+                InputProps={{
+                  disableUnderline: false,
+                  style: { color: "white" },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        color="primary"
+                        onClick={sendMessage}
+                        disabled={!chatMessage.trim()}
+                      >
+                        <Icon icon="akar-icons:send" height={24} color="gray" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
+          </div>
+        </Drawer>
       </Box>
     </Box>
   );
