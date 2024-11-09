@@ -3,6 +3,7 @@ import { v4 as uuidV4 } from "uuid";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Box, Typography, Link } from "@mui/material";
+import { Icon } from "@iconify/react";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -61,7 +62,27 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h4" gutterBottom color="black" fontWeight={700}>
+        <Box
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          textAlign={"center"}
+          gap={1}
+        >
+          <Icon icon="ic:outline-code" height={"45"} color="#C084FC"></Icon>
+          <Typography
+            color="white"
+            sx={{
+              fontSize: "30px",
+              fontWeight: 600,
+            }}
+          >
+            Collabify
+          </Typography>
+        </Box>
+        <Typography
+          sx={{ color: "#aaa", letterSpacing: "2px", wordSpacing: "3px" }}
+        >
           Join a Coding Room
         </Typography>
 
@@ -73,20 +94,29 @@ const Home = () => {
           value={roomId}
           onKeyUp={handleInputEnter}
           sx={{
-            bgcolor: "backgroundColor.secondary",
+            bgcolor: "",
             marginBottom: 2,
+            "& .MuiInputBase-input": {
+              color: "white",
+            },
             "& .MuiInput-underline:before": {
-              borderBottomColor: "black)",
+              borderBottomColor: "gray",
             },
             "& .MuiInput-underline:after": {
-              borderBottomColor: "black",
+              borderBottomColor: "white",
+            },
+            "& .MuiInput-underline:hover:before": {
+              borderBottomColor: "white",
+            },
+            "& .MuiInput-underline:hover:after": {
+              borderBottomColor: "white",
             },
           }}
           InputLabelProps={{
             style: { color: "#888" },
           }}
           InputProps={{
-            style: { color: "black" },
+            style: { color: "white" },
             disableUnderline: false,
           }}
         />
@@ -101,18 +131,27 @@ const Home = () => {
           sx={{
             marginBottom: 2,
             bgcolor: "backgroundColor.secondary",
+            "& .MuiInputBase-input": {
+              color: "white",
+            },
             "& .MuiInput-underline:before": {
-              borderBottomColor: "black)",
+              borderBottomColor: "gray",
             },
             "& .MuiInput-underline:after": {
-              borderBottomColor: "black",
+              borderBottomColor: "white",
+            },
+            "& .MuiInput-underline:hover:before": {
+              borderBottomColor: "white",
+            },
+            "& .MuiInput-underline:hover:after": {
+              borderBottomColor: "white",
             },
           }}
           InputLabelProps={{
             style: { color: "#888" },
           }}
           InputProps={{
-            style: { color: "black" },
+            style: { color: "white" },
             disableUnderline: false,
           }}
         />
@@ -122,12 +161,18 @@ const Home = () => {
             variant="contained"
             onClick={joinRoom}
             fullWidth
-            sx={{ padding: 1.5, bgcolor: "black", borderRadius: "10px", mb: 2 }}
+            sx={{
+              padding: 1.5,
+              bgcolor: "#dabcff",
+              borderRadius: "10px",
+              mb: 2,
+              color: "black",
+            }}
           >
             Join Room
           </Button>
 
-          <Typography variant="body1" align="center" color="#333">
+          <Typography variant="body1" align="center" color="#ccc">
             Dont't have an invite? create your&nbsp;
             <Link
               href=""
@@ -135,7 +180,7 @@ const Home = () => {
               sx={{
                 cursor: "pointer",
                 textDecoration: "none",
-                color: "black",
+                color: "#34D399",
                 fontWeight: 600,
               }}
             >

@@ -274,7 +274,7 @@ const EditorPage = () => {
         >
           <Box display={"flex"} alignItems={"center"} gap={1}>
             <Icon icon="material-symbols:code" color="#C084FC" height={35} />
-            <h2 style={{ color: "#fff", display: "inline" }}>Code Editor</h2>
+            <h2 style={{ color: "#fff", display: "inline" }}>Collabify</h2>
           </Box>
           <Box
             display={"flex"}
