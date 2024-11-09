@@ -28,9 +28,9 @@ const EditorPage = () => {
   const reactNavigator = useNavigate();
   const { roomId } = useParams();
   const [clients, setClients] = useState([]);
-  const [messages, setMessages] = useState([]); // State to store chat messages
-  const [chatMessage, setChatMessage] = useState(""); // State for current input message
-  const [sidebarOpen, setSidebarOpen] = useState(false); // State to control the sidebar visibility
+  const [messages, setMessages] = useState([]);
+  const [chatMessage, setChatMessage] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -73,7 +73,6 @@ const EditorPage = () => {
       });
 
       socketRef.current.on("RECEIVE_MESSAGE", (message) => {
-        console.log("Received message:", message); // Log the message object structure
         setMessages((prevMessages) => [...prevMessages, message]);
       });
     };
@@ -98,7 +97,7 @@ const EditorPage = () => {
         message,
       });
 
-      setChatMessage(""); // Clear input after sending
+      setChatMessage("");
     }
   };
 
