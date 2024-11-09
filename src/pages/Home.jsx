@@ -100,7 +100,7 @@ const Home = () => {
               color: "white",
             },
             "& .MuiInput-underline:before": {
-              borderBottomColor: "gray",
+              borderBottomColor: "#888",
             },
             "& .MuiInput-underline:after": {
               borderBottomColor: "white",
@@ -113,7 +113,7 @@ const Home = () => {
             },
           }}
           InputLabelProps={{
-            style: { color: "#888" },
+            style: { color: "#ccc" },
           }}
           InputProps={{
             style: { color: "white" },
@@ -135,7 +135,7 @@ const Home = () => {
               color: "white",
             },
             "& .MuiInput-underline:before": {
-              borderBottomColor: "gray",
+              borderBottomColor: "#888",
             },
             "& .MuiInput-underline:after": {
               borderBottomColor: "white",
@@ -148,7 +148,7 @@ const Home = () => {
             },
           }}
           InputLabelProps={{
-            style: { color: "#888" },
+            style: { color: "#ccc" },
           }}
           InputProps={{
             style: { color: "white" },
