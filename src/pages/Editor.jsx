@@ -31,6 +31,12 @@ const EditorPage = () => {
   const [messages, setMessages] = useState([]);
   const [chatMessage, setChatMessage] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const messagesEndRef = useRef(null);
+  const sidebarOpenRef = useRef(false);
+
+  useEffect(() => {
+    sidebarOpenRef.current = sidebarOpen;
+  }, [sidebarOpen]);
 
   useEffect(() => {
     const init = async () => {
@@ -73,7 +79,26 @@ const EditorPage = () => {
       });
 
       socketRef.current.on("RECEIVE_MESSAGE", (message) => {
+        console.log(message);
         setMessages((prevMessages) => [...prevMessages, message]);
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // if (message.username !== location.state?.username) {
+        //   if (!sidebarOpen) {
+        //     toast.info(`New message from ${message.message.username}`);
+        //   }
+        // }
+
+        if (
+          message.username !== location.state?.username &&
+          !sidebarOpenRef.current
+        ) {
+          toast.info(
+            `New message from ${message.username}: ${message.message.message}`
+          );
+        }
       });
     };
     init();
@@ -503,7 +528,7 @@ const EditorPage = () => {
                     marginLeft: msg.username === "currentUser" ? "auto" : "0",
                   }}
                 >
-                  <div
+                  <Box
                     style={{
                       fontWeight: "bold",
                       color:
@@ -513,9 +538,9 @@ const EditorPage = () => {
                     }}
                   >
                     {msg.username}
-                  </div>
+                  </Box>
 
-                  <div
+                  <Box
                     style={{
                       fontSize: "16px",
                       color: "white",
@@ -523,9 +548,10 @@ const EditorPage = () => {
                     }}
                   >
                     {msg.message.message}
-                  </div>
+                  </Box>
                 </Box>
               ))}
+              <Box ref={messagesEndRef} />
             </Box>
 
             {/* Chat Input */}
